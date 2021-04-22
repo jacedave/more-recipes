@@ -6,4 +6,8 @@ data class RecipeItem(
     var numofings: Int,
     var ingredients: String,
     var directions: String
-    )
+    ) {
+    override fun toString(): String {
+        return name + ": --- Ingredients --- " + ingredients + " --- Directions --- " + directions
+    }
+}
