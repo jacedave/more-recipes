@@ -1,5 +1,6 @@
 package com.example.recipescs3200final
 
+import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.res.Resources
@@ -101,50 +102,50 @@ class RecipeFragment : Fragment() {
 
     private fun startAnimation() {
 
-        val whiteColor: Int? = this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.white) }
-        val darkColor: Int? = this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.black) }
+        val lightColor: Int? = this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.colorPrimary) }
+        val darkColor: Int? = this.context?.let { it1 -> ContextCompat.getColor(it1, R.color.colorPrimaryDark) }
 
         val buttonYStart = darkModeButton.top.toFloat()
         val buttonYEnd = darkModeButton.bottom.toFloat() + 30
 
+        var backgroundAnimator: ObjectAnimator? = null
+
         if (darkMode) {
-            val backgroundAnimator =
-                whiteColor?.let {
-                    if (darkColor != null) {
-                        ObjectAnimator.ofInt(
-                            background,
-                            "backgroundColor",
-                            it,
-                            darkColor
-                        ).duration =
-                            5000
-                    }
+            if (lightColor != null) {
+                if (darkColor != null) {
+                    backgroundAnimator = ObjectAnimator.ofInt(
+                        background, "backgroundColor", darkColor, lightColor)
+                        .setDuration(3000)
+                    backgroundAnimator.setEvaluator(ArgbEvaluator())
                 }
+            }
         }
         else {
-            val backgroundAnimator =
-                whiteColor?.let {
+                if (lightColor != null) {
                     if (darkColor != null) {
-                        ObjectAnimator.ofInt(
-                            background,
-                            "backgroundColor",
-                            darkColor,
-                            it
-                        ).duration =
-                            5000
+                        backgroundAnimator = ObjectAnimator.ofInt(
+                            background, "backgroundColor", lightColor, darkColor
+                            ).setDuration(3000)
+                        backgroundAnimator.setEvaluator(ArgbEvaluator())
                     }
                 }
             // I need help with animating this. It isn't working
         }
 
-        val heightAnimator = ObjectAnimator.ofFloat(darkbutton, "y", buttonYStart, buttonYEnd).setDuration(3000)
+        val heightAnimator = ObjectAnimator.ofFloat(darkbutton,
+            "y", buttonYStart, buttonYEnd)
+            .setDuration(3000)
 
-        val heightAnimator2 = ObjectAnimator.ofFloat(darkbutton, "y", buttonYEnd, buttonYStart).setDuration(3000)
+        val heightAnimator2 = ObjectAnimator.ofFloat(darkbutton,
+            "y", buttonYEnd, buttonYStart)
+            .setDuration(3000)
 
         if (darkMode) {
             heightAnimator.start()
+            backgroundAnimator?.start()
         } else {
             heightAnimator2.start()
+            backgroundAnimator?.start()
         }
 
 
