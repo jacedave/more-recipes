@@ -9,12 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recipe_name"
+        android:textSize="20sp"
+        android:padding="8dp"
         android:text="@string/recipe_name"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recipe_ingredients"
+        android:textSize="14sp"
         android:text="@string/ingredients"/>
 
 </LinearLayout>
